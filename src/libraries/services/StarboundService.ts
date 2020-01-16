@@ -181,7 +181,7 @@ export default class StarboundService extends EventEmitter {
   }
 
   /**
-   * Extend the parsed message with Discord-specific data.
+   * Extend the parsed message (PlayerJoinMessage) with Discord-specific data.
    */
   // TODO: The type stuff here kind of sucks, is there a better way?
   extendMessage(message: PlayerMessage): Player | ExtendedMessage {
