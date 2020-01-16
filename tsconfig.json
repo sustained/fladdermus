@@ -4,8 +4,10 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "sourceMap": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "klasa", "@discordjs/collection", "discord.js"],
+    "types": ["node", "@discordjs/collection", "discord.js", "klasa"],
     "paths": {
       "@base/*": ["src/*"],
       "@arguments/*": ["src/arguments/*"],

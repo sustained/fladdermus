@@ -1,12 +1,20 @@
-import '@schemas/Starbound'
+import '@schemas/StarboundSchema'
 import { KlasaClient } from 'klasa'
 import StarboundService from '@services/StarboundService'
+import { EventEmitter } from 'events'
 
 if (typeof process.env.NODE_ENV === 'undefined') {
   throw new Error('NODE_ENV must be either development or production.')
 }
 
 const { NODE_ENV, OWNER_ID, TOKEN } = process.env
+
+// TODO: Is there a better way? Without this everything in src/starbound/events dies.
+declare module 'klasa' {
+  export interface KlasaClient {
+    starbound: EventEmitter
+  }
+}
 
 export default class FladdermusClient extends KlasaClient {
   starbound = new StarboundService(this)
@@ -17,10 +25,10 @@ export default class FladdermusClient extends KlasaClient {
       prefix: '>',
       commandEditing: true,
       commandLogging: true,
-      ownerID: OWNER_ID,
+      owners: [OWNER_ID],
       production: NODE_ENV === 'production',
       readyMessage: client =>
-        `Successfully initialized. Ready to serve ${client.guilds.size()} guilds.`,
+        `Successfully initialized. Ready to serve ${client.guilds.size} guilds.`,
     })
 
     this.on('klasaReady', () => {

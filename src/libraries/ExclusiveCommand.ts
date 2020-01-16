@@ -1,5 +1,4 @@
 import { CommandStore, CommandOptions } from 'klasa'
-import FladdermusClient from '@libraries/FladdermusClient'
 import FladdermusCommand from '@bases/FladdermusCommand'
 
 // declare module 'klasa' {
@@ -8,17 +7,25 @@ import FladdermusCommand from '@bases/FladdermusCommand'
 //   }
 // }
 
+export interface ExclusiveOptions {
+  guilds: string[]
+  subcommands: string[]
+}
+
+export interface ExclusiveCommandOptions extends CommandOptions {
+  exclusive: ExclusiveOptions
+}
+
 export default class ExclusiveCommand extends FladdermusCommand {
-  exclusive: ExclusiveInterface
+  exclusive: ExclusiveOptions
 
   constructor(
-    client: FladdermusClient,
     store: CommandStore,
     file: string[],
     directory: string,
     options?: ExclusiveCommandOptions
   ) {
-    super(client, store, file, directory, options)
+    super(store, file, directory, options)
 
     if (!options.exclusive) {
       options.exclusive = {
@@ -29,13 +36,4 @@ export default class ExclusiveCommand extends FladdermusCommand {
 
     this.exclusive = options.exclusive
   }
-}
-
-export interface ExclusiveInterface {
-  guilds: string[]
-  subcommands: string[]
-}
-
-export interface ExclusiveCommandOptions extends CommandOptions {
-  exclusive: ExclusiveInterface
 }

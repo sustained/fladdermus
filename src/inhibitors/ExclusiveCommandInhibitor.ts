@@ -1,33 +1,35 @@
-import { Inhibitor } from 'klasa'
+import { Inhibitor, InhibitorStore, KlasaMessage, Command } from 'klasa'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
 
 export default class extends Inhibitor {
-  constructor(...args) {
-    super(...args, {
-      name: 'ExclusiveCommandChecker',
+  constructor(store: InhibitorStore, file: string[], directory: string) {
+    super(store, file, directory, {
+      name: 'ExclusiveCommandInhibitor',
       enabled: true,
       spamProtection: false,
     })
   }
 
-  async run(message, command) {
+  async run(message: KlasaMessage, command: Command | ExclusiveCommand) {
     if (!(command instanceof ExclusiveCommand)) {
       return false
     }
 
-    // If we got this far then `runIn` included `dm` which means it's allowed.
-    if (message.channel.type === 'dm') {
+    if (message.channel.type === 'dm' && command.runIn.includes('dm')) {
       return false
     }
 
     if (!command.exclusive.guilds.includes(message.guild.id)) {
-      if (command.subcommands)
+      if (command.subcommands) {
+        console.log('!!!', command.usage)
+      } else {
         return message.language.get(
           'INHIBITOR_EXCLUSIVE_COMMAND_NOTICE',
-          command.exclusiveTo.map(
+          command.exclusive.guilds.map(
             guildId => this.client.guilds.get(guildId).name
           )
         )
+      }
     }
 
     return false

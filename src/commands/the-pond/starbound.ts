@@ -1,17 +1,12 @@
 import { KlasaMessage, KlasaClient, CommandStore } from 'klasa'
-import { GUILDS } from '@constants/index'
+import { GUILDS } from '@libraries/constants/index'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
 
 export default class extends ExclusiveCommand {
-  constructor(
-    client: KlasaClient,
-    store: CommandStore,
-    file: string[],
-    directory: string
-  ) {
+  constructor(store: CommandStore, file: string[], directory: string) {
     // TODO: This is an issue with tuples which we can't avoid, we should just make
     // our command extension take an object instead, then we avoid this issue completely.
-    super(client, store, string, directory, {
+    super(store, file, directory, {
       name: 'starbound',
       usage: '<start|stop|restart|info|status:default>',
       runIn: ['text', 'dm'],
@@ -19,7 +14,7 @@ export default class extends ExclusiveCommand {
       subcommands: true,
       description: 'Interact with the Starbound server.',
       exclusive: {
-        guilds: [GUILDS.PRIMARY],
+        guilds: [GUILDS.THE_POND],
         subcommands: ['start', 'stop', 'restart', 'info'],
       },
       // permissionLevel: 6,

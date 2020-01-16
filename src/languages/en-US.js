@@ -1,8 +1,20 @@
-import { Language } from 'klasa'
+import { Language, LanguageStore, LanguageOptions } from 'klasa'
 import { MessageEmbed } from 'discord.js'
-module.exports = class extends Language {
-  constructor(...args) {
-    super(...args)
+import createStarboundTemplate from '../libraries/templates/StarboundTemplate'
+
+// TODO: We can't make this one file a `.ts` file because
+// it causes problems with the typings.
+// TODO: It's not ideal that the language stuff is interspersed with embed-related
+// code, if necessary we can move the strings themselves to their own file?
+export default class LanguageEnUS extends Language {
+  constructor(
+    store, //: LanguageStore,
+    file, //: string[],
+    directory, //: string,
+    options //?: LanguageOptions
+  ) {
+    super(store, file, directory, options)
+
     this.language = {
       INHIBITOR_EXCLUSIVE_COMMAND_NOTICE: guilds =>
         new MessageEmbed().setDescription(
@@ -11,25 +23,25 @@ module.exports = class extends Language {
           )}!"`
         ),
       STARBOUND_START_ALREADY_RUNNING: () =>
-        new MessageEmbed()
+        createStarboundTemplate()
           .setColor('RED')
           .setDescription(
             'The Starbound server is already online (or booting up)!'
           ),
       STARBOUND_START_SUCCESS: () =>
-        new MessageEmbed()
+        createStarboundTemplate()
           .setColor('GREEN')
-          .setDescription('The Starbound server has been ${!'),
+          .setDescription('The Starbound server is now booting up.'),
       STARBOUND_START_FAILURE: () =>
-        new MessageEmbed()
+        createStarboundTemplate()
           .setColor('RED')
-          .setDescription('The Starbound server could not be started. :('),
+          .setDescription('The Starbound server could not be started!'),
       STARBOUND_STOP_SUCCESS: () =>
-        new MessageEmbed()
+        createStarboundTemplate()
           .setColor('GREEN')
           .setDescription('The Starbound server has been stopped!'),
-      STARBOUND_STop_FAILURE: message =>
-        new MessageEmbed()
+      STARBOUND_STOP_FAILURE: message =>
+        createStarboundTemplate()
           .setColor('RED')
           .setDescription('The Starbound server could not be started. :('),
     }

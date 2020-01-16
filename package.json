@@ -8,7 +8,8 @@
     "watch": "tsc -p . -w",
     "build": "tsc -p .",
     "build:clean": "rm -rf dist && tsc -p .",
-    "start": "nvm use 12.14 && node -r dotenv/config -r esm dist/fladdermus.js"
+    "install:nuke": "rm -rf dist && rm ./package-lock.json npm cache clean --force && npm install",
+    "start": "node -r dotenv/config -r esm dist/fladdermus.js"
   },
   "keywords": [
     "discord",
@@ -31,7 +32,7 @@
     "dotenv": "^8.2.0",
     "erlpack": "github:hammerandchisel/erlpack",
     "esm": "^3.2.25",
-    "klasa": "github:dirigeants/klasa#master",
+    "klasa": "github:dirigeants/klasa#settings",
     "module-alias": "^2.2.2"
   },
   "devDependencies": {

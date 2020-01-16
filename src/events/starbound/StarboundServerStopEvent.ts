@@ -1,14 +1,13 @@
-import StarboundService from '@services/StarboundService'
-import { GUILDS } from '@constants/index'
 import { MessageEmbed } from 'discord.js'
+import { EventStore } from 'klasa'
 import StarboundBaseEvent from '@libraries/bases/StarboundBaseEvent'
 
-export default class extends StarboundBaseEvent {
-  constructor(...args) {
-    super(...args, {
-      name: 'StarboundShutdownEvent',
+export default class StarboundServerStopEvent extends StarboundBaseEvent {
+  constructor(store: EventStore, file: string[], directory: string) {
+    super(store, file, directory, {
+      name: 'StarboundServerStopEvent',
       enabled: true,
-      event: 'shutdown',
+      event: 'stop',
       emitter: 'starbound',
       once: false,
     })

@@ -1,12 +1,12 @@
-import StarboundService from '@services/StarboundService'
-import { GUILDS } from '@constants/index'
+import { EventStore } from 'klasa'
 import { MessageEmbed } from 'discord.js'
 import StarboundBaseEvent from '@libraries/bases/StarboundBaseEvent'
+import { Player } from '@services/StarboundService'
 
-export default class extends StarboundBaseEvent {
-  constructor(...args) {
-    super(...args, {
-      name: 'StarboundPartEvent',
+export default class StarboundPlayerPartEvent extends StarboundBaseEvent {
+  constructor(store: EventStore, file: string[], directory: string) {
+    super(store, file, directory, {
+      name: 'StarboundPlayerPartEvent',
       enabled: true,
       event: 'part',
       emitter: 'starbound',
@@ -14,7 +14,7 @@ export default class extends StarboundBaseEvent {
     })
   }
 
-  run({ discordName, playerName }) {
+  run({ discordName, playerName }: Player) {
     const embed = new MessageEmbed().setColor('RED')
 
     if (discordName) {
