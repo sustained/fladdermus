@@ -1,0 +1,65 @@
+{
+  "name": "fladdermus",
+  "version": "0.0.1",
+  "description": "My personal Discord bot.",
+  "main": "dist/fladdermus.js",
+  "scripts": {
+    "dev": "npm run build && npm run start",
+    "watch": "tsc -p . -w",
+    "build": "tsc -p .",
+    "build:clean": "rm -rf dist && tsc -p .",
+    "start": "nvm use 12.14 && node -r dotenv/config -r esm dist/fladdermus.js"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "klasa",
+    "personal",
+    "bot",
+    "games",
+    "starbound",
+    "terraria",
+    "minecraft",
+    "language",
+    "learning",
+    "swedish",
+    "german"
+  ],
+  "author": "sustained <sustained.dissonance@gmail.com> (https://sustained.name/)",
+  "dependencies": {
+    "discord.js": "github:discordjs/discord.js#master",
+    "dotenv": "^8.2.0",
+    "erlpack": "github:hammerandchisel/erlpack",
+    "esm": "^3.2.25",
+    "klasa": "github:dirigeants/klasa#master",
+    "module-alias": "^2.2.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@discordjs/collection": "^0.1.3",
+    "@types/node": "^13.1.7",
+    "@types/ws": "^7.2.0"
+  },
+  "_moduleAliases": {
+    "@base": "dist",
+    "@arguments": "dist/arguments",
+    "@commands": "dist/commands",
+    "@events": "dist/events",
+    "@extendables": "dist/extendables",
+    "@finalizers": "dist/finalizers",
+    "@inhibitors": "dist/inhibitors",
+    "@languages": "dist/languages",
+    "@libraries": "dist/libraries",
+    "@monitors": "dist/monitors",
+    "@providers": "dist/providers",
+    "@schemas": "dist/schemas",
+    "@serializers": "dist/serializers",
+    "@constants": "dist/libraries/constants",
+    "@services": "dist/libraries/services"
+  },
+  "private": true
+}
