@@ -370,7 +370,7 @@ export default class StarboundService extends EventEmitter {
       if (previousMessage.playerName === message.playerName) {
         this.chatQueue.push(message)
       } else {
-        this.flushChatQueue() // A new player is chatting, flush the previous stack.
+        this.flushChatQueue() // A new player is chatting, flush the previous queue.
       }
 
       if (Date.now() - firstMessage.timestamp > FLUSH_MESSAGES_AFTER) {
