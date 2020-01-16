@@ -105,6 +105,8 @@ export default class StarboundService extends EventEmitter {
           process.exit()
         })
         this.server.kill('SIGINT') // NOTE: Should exit gracefully because ^c does?
+      } else {
+        process.exit()
       }
     })
   }
