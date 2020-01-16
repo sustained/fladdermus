@@ -219,9 +219,9 @@ export default class StarboundService extends EventEmitter {
         '[Info] UniverseServer: listening for incoming TCP connections'
       )
     ) {
-      this.emit('ready')
+      this.emit('start')
     } else if (data.startsWith('[Info] Server shutdown gracefully')) {
-      this.emit('shutdown')
+      this.emit('stop')
     }
   }
 
