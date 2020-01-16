@@ -27,7 +27,8 @@
       "@services/*": ["src/libraries/services/*"],
       "@templates/*": ["src/libraries/templates/*"],
       "@utilities/*": ["src/libraries/utilities/*"],
-      "@typings/*": ["src/libraries/types/*"]
+      "@typings/*": ["src/libraries/types/*"],
+      "@structures/*": ["src/libraries/structures/*"]
     }
   },
   "include": ["./src/**/*", "./data/**/*"],

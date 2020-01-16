@@ -1,5 +1,5 @@
 import { CommandStore, CommandOptions } from 'klasa'
-import FladdermusCommand from '@bases/FladdermusCommand'
+import FladdermusCommand from '@structures/FladdermusCommand'
 
 // declare module 'klasa' {
 //   interface CommandOptions {

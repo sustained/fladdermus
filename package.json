@@ -60,7 +60,8 @@
     "@schemas": "dist/schemas",
     "@serializers": "dist/serializers",
     "@constants": "dist/libraries/constants",
-    "@services": "dist/libraries/services"
+    "@services": "dist/libraries/services",
+    "@structures": "dist/libraries/structures",
   },
   "private": true
 }

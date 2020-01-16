@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js'
 import { EventStore } from 'klasa'
-import StarboundBaseEvent from '@libraries/bases/StarboundBaseEvent'
+import StarboundBaseEvent from '@structures/StarboundBaseEvent'
 import { ExtendedMessage } from '@services/StarboundService'
 import createStarboundTemplate from '@templates/StarboundTemplate'
 

@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js'
 import { EventStore } from 'klasa'
-import StarboundBaseEvent from '@libraries/bases/StarboundBaseEvent'
+import StarboundBaseEvent from '@structures/StarboundBaseEvent'
 import { Player } from '@services/StarboundService'
 
 export default class StarboundPlayerJoinEvent extends StarboundBaseEvent {
