@@ -1,4 +1,4 @@
-import { CommandStore, CommandOptions } from 'klasa'
+import { CommandStore, CommandOptions, util } from 'klasa'
 import FladdermusCommand from '@structures/FladdermusCommand'
 
 // declare module 'klasa' {
@@ -9,7 +9,7 @@ import FladdermusCommand from '@structures/FladdermusCommand'
 
 export interface ExclusiveOptions {
   guilds: string[]
-  subcommands: string[]
+  subcommands?: string[]
 }
 
 export interface ExclusiveCommandOptions extends CommandOptions {
@@ -27,13 +27,12 @@ export default class ExclusiveCommand extends FladdermusCommand {
   ) {
     super(store, file, directory, options)
 
-    if (!options.exclusive) {
-      options.exclusive = {
+    this.exclusive = util.mergeDefault(
+      {
         guilds: [],
         subcommands: [],
-      }
-    }
-
-    this.exclusive = options.exclusive
+      },
+      options.exclusive
+    )
   }
 }
