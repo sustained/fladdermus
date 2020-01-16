@@ -105,6 +105,9 @@ export default class StarboundService extends EventEmitter {
     })
   }
 
+  /**
+   * Is the Starbound server online?
+   */
   isRunning() {
     return this.running
   }
