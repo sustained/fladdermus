@@ -284,7 +284,7 @@ export default class StarboundService extends EventEmitter {
 
     if (!groups || !groups.playerName) {
       return void console.warn(
-        'Unparseable player logged in (this should never happen).',
+        'Unparseable join message (this should never happen).',
         data
       )
     }
