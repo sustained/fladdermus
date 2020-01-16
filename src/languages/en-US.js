@@ -1,4 +1,4 @@
-import { Language, LanguageStore, LanguageOptions } from 'klasa'
+import { Language, LanguageStore, LanguageOptions, util } from 'klasa'
 import { MessageEmbed } from 'discord.js'
 import createStarboundTemplate from '../libraries/templates/StarboundTemplate'
 
@@ -11,16 +11,24 @@ export default class LanguageEnUS extends Language {
     store, //: LanguageStore,
     file, //: string[],
     directory, //: string,
-    options //?: LanguageOptions
+    options //: LanguageOptions
   ) {
     super(store, file, directory, options)
 
     this.language = {
-      INHIBITOR_EXCLUSIVE_COMMAND_NOTICE: guilds =>
+      INHIBITOR_EXCLUSIVE_COMMAND_NOTICE: (cmdName, guildNames) =>
         new MessageEmbed().setDescription(
-          `Sorry but that command is exclusive to the following guild(s): ${guilds.join(
-            ', '
-          )}!"`
+          `Sorry but the \`${cmdName}\` command is exclusive to the following guild(s):\n\n${guildNames
+            .map(name => `- ${name}`)
+            .join(', ')}
+          `
+        ),
+      INHIBITOR_EXCLUSIVE_SUBCOMMAND_NOTICE: (cmdName, guildNames) =>
+        new MessageEmbed().setDescription(
+          `Sorry but the \`${cmdName}\` command is exclusive to the following guild(s):\n\n${guildNames
+            .map(name => `- ${name}`)
+            .join(', ')}
+          `
         ),
       STARBOUND_START_ALREADY_RUNNING: () =>
         createStarboundTemplate()
