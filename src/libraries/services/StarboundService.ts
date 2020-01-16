@@ -183,22 +183,31 @@ export default class StarboundService extends EventEmitter {
   /**
    * Extend the parsed message (PlayerJoinMessage) with Discord-specific data.
    */
-  // TODO: The type stuff here kind of sucks, is there a better way?
-  extendMessage(message: PlayerMessage): Player | ExtendedMessage {
+  extendPlayer(message: PlayerJoinMessage): Player {
     const user = this.getUserForPlayer(message)
     const member = this.client.guilds.get(GUILDS.THE_POND).members.get(user?.id)
 
-    let response: Player | ExtendedMessage = {
+    return {
       ...message,
       chatColour: user?.settings?.get('starbound.chatColour') as string,
       discordName: member ? member : user ? user.tag : null,
     }
+  }
 
-    if ('message' in message) {
-      ;(response as ExtendedMessage).timestamp = Date.now()
+  /**
+   * Extend a chat message (PlayerChatMessage) with the extended player data we
+   * added when the player joined
+   *
+   * @see extendPlayer
+   * @see handleMessage
+   */
+  extendChatMessage(message: PlayerChatMessage): ExtendedMessage {
+    const playerData = this.getPlayerByPlayerName(message.playerName)
+    return {
+      ...playerData,
+      message: message.message,
+      timestamp: Date.now(),
     }
-
-    return response
   }
 
   /**
@@ -237,9 +246,7 @@ export default class StarboundService extends EventEmitter {
         break
 
       case MessageTypes.CHAT:
-        extended = this.getPlayerByPlayerName(
-          (message as PlayerChatMessage).playerName
-        )
+        extended = this.extendChatMessage(message as PlayerChatMessage)
         return this.enqueueChat(extended as ExtendedMessage)
         break
 
@@ -322,7 +329,7 @@ export default class StarboundService extends EventEmitter {
    * Register a player as being online.
    */
   registerPlayer(message: PlayerJoinMessage): Player {
-    const extended = this.extendMessage(message)
+    const extended = this.extendPlayer(message)
     this.players.set(message.accountName, extended)
     return extended
   }
