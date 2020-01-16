@@ -15,11 +15,13 @@ The first few versions mostly related to language learning as that was my main i
 
 Fladdermus is the Swedish word for bat and Swedish is my [L2](https://en.wikipedia.org/wiki/Second_language). :bat:
 
-I don't particularly like bats (except Fladdermus) but it's just a fun word, it roughly translates as "flapping mouse". I know, right?
+I don't particularly like bats (except Fladdermus) but it's just a fun word.
+
+It roughly translates as "flapping mouse". I know, right?
 
 ### Why version 4?
 
-I'm learning Klasa (to replace my old friend Commando) and TypeScript, so... I needed a project.
+I'm learning [Klasa](https://klasa.js.org/#/) to replace my old friend Commando and I decided to relearn [TypeScript](https://www.typescriptlang.org/) simultaneously, so... I needed a project.
 
 ### Where are versions 1 through 3?
 
