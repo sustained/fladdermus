@@ -62,6 +62,7 @@
     "@constants": "dist/libraries/constants",
     "@services": "dist/libraries/services",
     "@structures": "dist/libraries/structures",
+    "@templates": "dist/libraries/templates"
   },
   "private": true
 }
