@@ -50,7 +50,7 @@ export interface Player {
  * Represents a chat message which has been extended with Discord-specific data.
  */
 export interface ExtendedMessage extends Player {
-  message: string // Optional for non-chat events.
+  message: string
   timestamp: number
 }
 
