@@ -26,6 +26,9 @@ export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
     this.channel?.send(embed)
   }
 
+  /**
+   * Create the embed for a single chat message.
+   */
   private singleMessageEmbed({
     discordName,
     playerName,
@@ -46,6 +49,9 @@ export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
     return embed
   }
 
+  /**
+   * Create the embed for a stack/queue of chat messages.
+   */
   private multipleMessageEmbed(messages: ExtendedMessage[]) {
     if (!messages.length) {
       return void console.warn('Got an empty array of chat messages?', messages)
