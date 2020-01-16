@@ -2,6 +2,7 @@ import { MessageEmbed } from 'discord.js'
 import { EventStore } from 'klasa'
 import StarboundBaseEvent from '@libraries/bases/StarboundBaseEvent'
 import { ExtendedMessage } from '@services/StarboundService'
+import createStarboundTemplate from '@templates/StarboundTemplate'
 
 export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
   constructor(store: EventStore, file: string[], directory: string) {
@@ -14,8 +15,23 @@ export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
     })
   }
 
-  run({ discordName, playerName, chatColour, message }: ExtendedMessage) {
-    const embed = new MessageEmbed().setColor(chatColour)
+  /**
+   * Builds the embed and sends the chat message(s).
+   */
+  run(message: ExtendedMessage | ExtendedMessage[]) {
+    const embed = Array.isArray(message)
+      ? this.singleMessageEmbed((message as unknown) as ExtendedMessage)
+      : this.multipleMessageEmbed((message as unknown) as ExtendedMessage[])
+
+    this.channel?.send(embed)
+  }
+
+  private singleMessageEmbed({
+    discordName,
+    playerName,
+    message,
+  }: ExtendedMessage) {
+    const embed = createStarboundTemplate()
 
     if (discordName) {
       embed
@@ -27,6 +43,31 @@ export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
         .setFooter(`Not linked to Discord.`)
     }
 
-    this.channel?.send(embed)
+    return embed
+  }
+
+  private multipleMessageEmbed(messages: ExtendedMessage[]) {
+    if (!messages.length) {
+      return void console.warn('Got an empty array of chat messages?', messages)
+    }
+
+    const embed = createStarboundTemplate()
+    const firstMessage = messages[0]
+    const { discordName, playerName } = firstMessage
+    const messageString = messages
+      .map((message, n) => `${n + 1} ${message.message}`)
+      .join('\n')
+
+    if (discordName) {
+      embed
+        .setDescription(`${discordName}\n${messageString}`)
+        .setFooter(`Playing as ${playerName}.`)
+    } else {
+      embed
+        .setDescription(`**<${playerName}>**\n${messageString}`)
+        .setFooter(`Not linked to Discord.`)
+    }
+
+    return embed
   }
 }
