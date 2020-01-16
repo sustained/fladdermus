@@ -4,8 +4,6 @@ import ExclusiveCommand from '@libraries/ExclusiveCommand'
 
 export default class extends ExclusiveCommand {
   constructor(store: CommandStore, file: string[], directory: string) {
-    // TODO: This is an issue with tuples which we can't avoid, we should just make
-    // our command extension take an object instead, then we avoid this issue completely.
     super(store, file, directory, {
       name: 'starbound',
       usage: '<start|stop|restart|info|status:default>',
