@@ -385,17 +385,13 @@ export default class StarboundService extends EventEmitter {
    * Flush queued messages.
    */
   flushChatQueue(message?: ExtendedMessage) {
-    this.emit('chat', this.chatQueue)
+    this.emit(
+      'chat',
+      this.chatQueue.length === 1 ? this.chatQueue[0] : this.chatQueue
+    )
     this.chatQueue = []
     if (message) {
       this.chatQueue.push(message)
     }
   }
-
-  // async queryServer() {
-  //   const query = await gamedig.default.query({
-  //     type: 'starbound',
-  //     host: '127.0.0.1',
-  //   })
-  // }
 }
