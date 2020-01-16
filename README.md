@@ -35,7 +35,34 @@ The code will also be at least somewhat reasonably well-commented, so feel free 
 
 ## Installation
 
+### Setup
+
 ```
-cp .env.example .env # Don't forget to add your token etc. to .env.
-npm install && npm build && npm run
+cp .env.example .env # Copy the example dotenv file
+code .env            # Configure the bot in your editor of choice
+```
+
+#### Required environmental variables
+
+- `NODE_ENV` - Either `development` or `production`
+- `CLIENT_ID` - [The client ID of your Discord application](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
+- `OWNER_ID` - [The ID of your Discord user account](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
+- `TOKEN` - [The bot token for your Discord application's bot user](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
+
+### Install Dependencies
+
+```
+npm install
+```
+
+### Compilation
+
+```
+npm run build
+```
+
+### Running
+
+```
+npm run start
 ```
