@@ -260,7 +260,7 @@ export default class StarboundService extends EventEmitter {
       .match(/^\[Info\] Chat: <(?<playerName>[\w]{1,16})> (?<message>.*)$/s)
 
     if (!groups.playerName || !groups.message) {
-      return void console.warn(
+      return console.warn(
         'Unparseable chat message (this should never happen).',
         data
       )
@@ -283,7 +283,7 @@ export default class StarboundService extends EventEmitter {
       )
 
     if (!groups || !groups.playerName) {
-      return void console.warn(
+      return console.warn(
         'Unparseable join message (this should never happen).',
         data
       )
@@ -306,7 +306,7 @@ export default class StarboundService extends EventEmitter {
       )
 
     if (!groups.accountName) {
-      return void console.warn(
+      return console.warn(
         'Unparseable part message (this should never happen).',
         data
       )
