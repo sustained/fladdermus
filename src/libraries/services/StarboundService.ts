@@ -9,6 +9,10 @@ import { ChildProcessWithoutNullStreams } from 'child_process'
 const { NODE_ENV, STARBOUND_SERVER_DIRECTORY } = process.env
 const FLUSH_MESSAGES_AFTER = 1000 * 7
 
+const CHAT_REGEXP = /^\[Info\] Chat: <(?<playerName>[\w]{1,16})> (?<message>.*)$/s
+const JOIN_REGEXP = /^\[Info\] UniverseServer: Logged in account ''(?<accountName>[\w]{1,16})'' as player '(?<playerName>[\w]{1,16})' .*/s
+const PART_REGEXP = /^\[Info\] UniverseServer: Client '(?<accountName>[\w]{1,16})' <[\d]+> \(.*\) disconnected for reason:\s?(?<reason>.*)?/s
+
 /**
  * Represents a (parsed) chat messsage.
  */
@@ -262,67 +266,48 @@ export default class StarboundService extends EventEmitter {
    * Parse a chat message.
    */
   private parseChatMessage(data: string) {
-    const { groups } = data
-      .trim()
-      .match(/^\[Info\] Chat: <(?<playerName>[\w]{1,16})> (?<message>.*)$/s)
+    const parsed = this.extractMessageData<PlayerChatMessage>(data, CHAT_REGEXP)
 
-    if (!groups.playerName || !groups.message) {
+    if (!parsed.playerName || !parsed.message) {
       return console.warn(
         'Unparseable chat message (this should never happen).',
         data
       )
     }
 
-    this.handleMessage(
-      MessageTypes.CHAT,
-      (groups as unknown) as PlayerChatMessage
-    )
+    this.handleMessage(MessageTypes.CHAT, parsed)
   }
 
   /**
    * Parse a join/connect message.
    */
   private parseJoinMessage(data: string) {
-    const { groups } = data
-      .trim()
-      .match(
-        /^\[Info\] UniverseServer: Logged in account ''(?<accountName>[\w]{1,16})'' as player '(?<playerName>[\w]{1,16})' .*/s
-      )
+    const parsed = this.extractMessageData<PlayerJoinMessage>(data, JOIN_REGEXP)
 
-    if (!groups || !groups.playerName) {
+    if (!parsed.playerName) {
       return console.warn(
         'Unparseable join message (this should never happen).',
         data
       )
     }
 
-    this.handleMessage(
-      MessageTypes.JOIN,
-      (groups as unknown) as PlayerJoinMessage
-    )
+    this.handleMessage(MessageTypes.JOIN, parsed)
   }
 
   /**
    * Parse a part/disconnect message.
    */
   parsePartMessage(data: string) {
-    const { groups } = data
-      .trim()
-      .match(
-        /^\[Info\] UniverseServer: Client '(?<accountName>[\w]{1,16})' <[\d]+> \(.*\) disconnected for reason:\s?(?<reason>.*)?/s
-      )
+    const parsed = this.extractMessageData<PlayerPartMessage>(data, PART_REGEXP)
 
-    if (!groups.accountName) {
+    if (!parsed.accountName) {
       return console.warn(
         'Unparseable part message (this should never happen).',
         data
       )
     }
 
-    this.handleMessage(
-      MessageTypes.PART,
-      (groups as unknown) as PlayerPartMessage
-    )
+    this.handleMessage(MessageTypes.PART, parsed)
   }
 
   /**
@@ -399,6 +384,16 @@ export default class StarboundService extends EventEmitter {
     this.chatQueue = []
     if (message) {
       this.chatQueue.push(message)
+    }
+  }
+
+  /**
+   * Extract the data we care about for the given unparsed string + regexp.
+   */
+  private extractMessageData<T>(data: string, regexp: RegExp): T | undefined {
+    const match = data.trim().match(regexp)
+    if (match) {
+      return (match.groups as unknown) as T
     }
   }
 }
