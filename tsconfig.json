@@ -6,6 +6,7 @@
     "sourceMap": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "types": ["node", "@discordjs/collection", "discord.js", "klasa"],
     "paths": {
