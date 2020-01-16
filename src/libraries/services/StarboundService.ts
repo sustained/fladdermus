@@ -290,7 +290,7 @@ export default class StarboundService extends EventEmitter {
     }
 
     this.handleMessage(
-      MessageTypes.PART,
+      MessageTypes.JOIN,
       (groups as unknown) as PlayerJoinMessage
     )
   }
