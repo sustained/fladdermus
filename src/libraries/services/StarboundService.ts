@@ -41,7 +41,7 @@ type PlayerMessage = PlayerChatMessage | PlayerJoinMessage | PlayerPartMessage
 // TODO: Figure out how to make EITHER playerName OR accountName optional but not both.
 export interface Player {
   chatColour: string
-  discordName?: GuildMember | string // Optional for non-connected accounts.
+  discordName?: GuildMember | string // Can be either a GuildMember or a user tag.
   playerName?: string
   accountName?: string
 }
