@@ -2,10 +2,6 @@
 
 This directory stores our custom libraries.
 
-## Bases
-
-Bases are basically abstract/base classes.
-
 ## Constants
 
 Constants are self-explantory.
@@ -21,11 +17,19 @@ Services provide data from external sources that isn't stored using Klasa's data
 - Data from an IPC socket
 - Data from another process' output (e.g. StarboundService)
 
+## Structures
+
+Structures are basically abstract/base classes.
+
 ## Templates
 
 Templates are embed templates.
 
 For instance, the `StarboundTemplate` adds the starbound logo and makes the sidebar Starbound-purple and so on.
+
+## Types
+
+Types are for miscellaneous TypeScript types/interfaces that don't really belong anywhere else.
 
 ## Utilities
 
