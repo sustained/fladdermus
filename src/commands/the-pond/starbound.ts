@@ -2,7 +2,16 @@ import { KlasaMessage, KlasaClient, CommandStore } from 'klasa'
 import { GUILDS } from '@libraries/constants/index'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
 
-export default class extends ExclusiveCommand {
+/**
+ * These actions/subcommands require a user to be authorised.
+ */
+enum ProtectedAction {
+  START = 'start',
+  STOP = 'stop',
+  RESTART = 'restart',
+}
+
+export default class StarboundCommand extends ExclusiveCommand {
   constructor(store: CommandStore, file: string[], directory: string) {
     super(store, file, directory, {
       name: 'starbound',
@@ -20,9 +29,24 @@ export default class extends ExclusiveCommand {
   }
 
   /**
+   * Check if a user is authorised to carry out protected actions.
+   */
+  private isUserAuthorised(user: User) {
+    return (this.client.settings.get(
+      'starbound.authorisedUsers'
+    ) as string[]).includes(user.id)
+  }
+
+  /**
    * Start the Starbound server.
    */
   async start(message: KlasaMessage) {
+    if (!this.isUserAuthorised(message.author)) {
+      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+        ProtectedAction.START,
+      ])
+    }
+
     if (this.client.starbound.isRunning()) {
       return message.sendLocale('STARBOUND_START_ALREADY_RUNNING')
     }
@@ -40,6 +64,12 @@ export default class extends ExclusiveCommand {
    * Stop the Starbound server.
    */
   async stop(message: KlasaMessage) {
+    if (!this.isUserAuthorised(message.author)) {
+      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+        ProtectedAction.STOP,
+      ])
+    }
+
     try {
       this.client.starbound.stopServer()
     } catch (error) {
@@ -50,7 +80,13 @@ export default class extends ExclusiveCommand {
   /**
    * Restart the Starbound server.
    */
-  async restart(message: KlasaMessage) {}
+  async restart(message: KlasaMessage) {
+    if (!this.isUserAuthorised(message.author)) {
+      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+        ProtectedAction.RESTART,
+      ])
+    }
+  }
 
   /**
    * Request information about the Starbound server.

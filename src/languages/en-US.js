@@ -52,6 +52,12 @@ export default class LanguageEnUS extends Language {
         createStarboundTemplate()
           .setColor('RED')
           .setDescription('The Starbound server could not be started. :('),
+      STARBOUND_NO_PERMISSION: action =>
+        createStarboundTemplate()
+          .setColor('RED')
+          .setDescription(
+            `Sorry, you don't have permission to ${action} the server.`
+          ),
     }
   }
 

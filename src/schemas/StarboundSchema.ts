@@ -16,4 +16,5 @@ Client.defaultClientSchema.add('starbound', starbound => {
   return starbound
     .add('autoStart', 'boolean', { default: false })
     .add('autoRestart', 'boolean', { default: false })
+    .add('authorisedUsers', 'user', { array: true })
 })
