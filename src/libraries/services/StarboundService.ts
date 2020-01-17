@@ -234,10 +234,21 @@ export default class StarboundService extends EventEmitter {
         '[Info] UniverseServer: listening for incoming TCP connections'
       )
     ) {
-      this.emit('start')
+      if (this.getClientSetting<string[]>(`enabledEvents`).includes('start')) {
+        this.emit('start')
+      }
     } else if (data.startsWith('[Info] Server shutdown gracefully')) {
-      this.emit('stop')
+      if (this.getClientSetting<string[]>(`enabledEvents`).includes('stop')) {
+        this.emit('stop')
+      }
     }
+  }
+
+  /**
+   * Return a Starbound-related client setting.
+   */
+  getClientSetting<T>(path): T {
+    return (this.client.settings.get(`starbound.${path}`) as unknown) as T
   }
 
   /**
@@ -253,7 +264,9 @@ export default class StarboundService extends EventEmitter {
 
       case MessageTypes.CHAT:
         extended = this.extendChatMessage(message as PlayerChatMessage)
-        return this.enqueueChat(extended as ExtendedMessage)
+        if (this.getClientSetting<boolean>(`queueMessages`)) {
+          return this.enqueueChat(extended as ExtendedMessage)
+        }
         break
 
       case MessageTypes.PART:
@@ -261,7 +274,9 @@ export default class StarboundService extends EventEmitter {
         break
     }
 
-    this.emit(type, extended)
+    if (this.getClientSetting<string[]>(`enabledEvents`).includes(type)) {
+      this.emit(type, extended)
+    }
   }
 
   /**
@@ -379,11 +394,15 @@ export default class StarboundService extends EventEmitter {
    * Flush queued messages.
    */
   flushChatQueue(message?: ExtendedMessage) {
-    this.emit(
-      'chat',
-      this.chatQueue.length === 1 ? this.chatQueue[0] : this.chatQueue
-    )
+    if (this.getClientSetting<string[]>(`enabledEvents`).includes('chat')) {
+      this.emit(
+        'chat',
+        this.chatQueue.length === 1 ? this.chatQueue[0] : this.chatQueue
+      )
+    }
+
     this.chatQueue = []
+
     if (message) {
       this.chatQueue.push(message)
     }
