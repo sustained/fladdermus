@@ -1,8 +1,7 @@
-import { KlasaMessage, KlasaClient, CommandStore } from 'klasa'
+import { User, Message, GuildMember, Guild } from 'discord.js'
+import { KlasaMessage, KlasaClient, CommandStore, Possible } from 'klasa'
 import { GUILDS } from '@libraries/constants/index'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
-import { User, Message, GuildMember, Guild } from 'discord.js'
-import { Possible } from 'klasa'
 import createStarboundTemplate from '@templates/StarboundTemplate'
 
 /**
