@@ -67,7 +67,7 @@ export default class StarboundCommand extends ExclusiveCommand {
    */
   async start(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
-      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+      throw message.language.get('STARBOUND_NO_PERMISSION', [
         ProtectedAction.START,
       ])
     }
@@ -90,7 +90,7 @@ export default class StarboundCommand extends ExclusiveCommand {
    */
   async stop(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
-      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+      throw message.language.get('STARBOUND_NO_PERMISSION', [
         ProtectedAction.STOP,
       ])
     }
@@ -107,7 +107,7 @@ export default class StarboundCommand extends ExclusiveCommand {
    */
   async restart(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
-      return message.sendLocale('STARBOUND_NO_PERMISSION', [
+      throw message.language.get('STARBOUND_NO_PERMISSION', [
         ProtectedAction.RESTART,
       ])
     }
