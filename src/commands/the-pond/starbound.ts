@@ -146,6 +146,9 @@ export default class StarboundCommand extends ExclusiveCommand {
     return message.sendLocale('STARBOUND_AUTH_SUCCESS', [member, arrayAction])
   }
 
+  /**
+   * List the currently authorised users.
+   */
   private listAuthorisedUsers(message: KlasaMessage) {
     const members: GuildMember[] = (this.client.settings.get(
       'starbound.authorisedUsers'
