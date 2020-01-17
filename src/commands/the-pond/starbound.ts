@@ -1,6 +1,9 @@
 import { KlasaMessage, KlasaClient, CommandStore } from 'klasa'
 import { GUILDS } from '@libraries/constants/index'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
+import { User, Message, GuildMember, Guild } from 'discord.js'
+import { Possible } from 'klasa'
+import createStarboundTemplate from '@base/libraries/templates/StarboundTemplate'
 
 /**
  * These actions/subcommands require a user to be authorised.
@@ -15,17 +18,39 @@ export default class StarboundCommand extends ExclusiveCommand {
   constructor(store: CommandStore, file: string[], directory: string) {
     super(store, file, directory, {
       name: 'starbound',
-      usage: '<start|stop|restart|info|status:default>',
+      usage:
+        '<start|stop|restart|info|authorise|status:default> (member:member)',
       runIn: ['text', 'dm'],
       aliases: ['sb'],
+      usageDelim: ' ',
+      flagSupport: true,
       subcommands: true,
       description: 'Interact with the Starbound server.',
       exclusive: {
         guilds: [GUILDS.THE_POND],
-        subcommands: ['start', 'stop', 'restart', 'info'],
+        subcommands: ['start', 'stop', 'restart', 'authorise'],
       },
-      // permissionLevel: 6,
     })
+
+    this.createCustomResolver(
+      'member',
+      (
+        argument: string,
+        possible: Possible,
+        message: KlasaMessage,
+        [subcommand]: any[]
+      ) => {
+        if (!message.flagArgs.list) {
+          if (subcommand === 'authorise' && !argument) {
+            throw message.language.get('STARBOUND_AUTH_USER_REQUIRED')
+          }
+
+          return this.client.arguments
+            .get('member')!
+            .run(argument, possible, message)
+        }
+      }
+    )
   }
 
   /**
@@ -102,4 +127,37 @@ export default class StarboundCommand extends ExclusiveCommand {
    * See who's currently online on the Starbound server.
    */
   async online(message: KlasaMessage) {}
+
+  /**
+   * Authorise a user to start/stop/restart the Starbound server.
+   */
+  async authorise(message: KlasaMessage, [member]: [GuildMember]) {
+    if (message.flagArgs.list) {
+      return this.listAuthorisedUsers(message)
+    }
+
+    if (!message.client.owners.has(member.user)) {
+      throw message.language.get('STARBOUND_AUTH_FAILURE')
+    }
+
+    const arrayAction = this.isUserAuthorised(member.user) ? 'remove' : 'add'
+    this.client.settings.update('starbound.authorisedUsers', member.user.id, {
+      arrayAction,
+    })
+    return message.sendLocale('STARBOUND_AUTH_SUCCESS', [member, arrayAction])
+  }
+
+  private listAuthorisedUsers(message: KlasaMessage) {
+    const members: GuildMember[] = (this.client.settings.get(
+      'starbound.authorisedUsers'
+    ) as string[]).map(userId => {
+      return message.guild.members.get(userId)
+    })
+
+    // return message.sendEmbed(
+    return createStarboundTemplate()
+      .setTitle('Authorised Users')
+      .setDescription(members.join(', '))
+    // )
+  }
 }

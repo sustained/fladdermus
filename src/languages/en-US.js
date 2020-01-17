@@ -58,6 +58,22 @@ export default class LanguageEnUS extends Language {
           .setDescription(
             `Sorry, you don't have permission to ${action} the server.`
           ),
+      STARBOUND_AUTH_USER_REQUIRED: action =>
+        createStarboundTemplate()
+          .setColor('ORANGE')
+          .setDescription(`You need to specify a valid user to (de)authorise.`),
+      STARBOUND_AUTH_FAILURE: action =>
+        createStarboundTemplate()
+          .setColor('RED')
+          .setDescription(`You do not have permission to (de)authorise users.`),
+      STARBOUND_AUTH_SUCCESS: (member, action) =>
+        createStarboundTemplate()
+          .setColor('GREEN')
+          .setDescription(
+            `Succcessfully ${
+              action === 'add' ? 'authorised' : 'deauthorised'
+            } ${member}!`
+          ),
     }
   }
 
