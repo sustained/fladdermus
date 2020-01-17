@@ -40,13 +40,17 @@ export default class StarboundCommand extends ExclusiveCommand {
         [subcommand]: any[]
       ) => {
         if (!message.flagArgs.list) {
-          if (subcommand === 'authorise' && !argument) {
-            throw message.language.get('STARBOUND_AUTH_USER_REQUIRED')
-          }
+          if (subcommand === 'authorise') {
+            if (!argument) {
+              throw message.language.get('STARBOUND_AUTH_USER_REQUIRED')
+            } else {
+              return this.client.arguments
+                .get('member')!
+                .run(argument, possible, message)
+            }
 
-          return this.client.arguments
-            .get('member')!
-            .run(argument, possible, message)
+            return argument
+          }
         }
       }
     )
@@ -135,7 +139,7 @@ export default class StarboundCommand extends ExclusiveCommand {
       return this.listAuthorisedUsers(message)
     }
 
-    if (!message.client.owners.has(member.user)) {
+    if (!message.client.owners.has(message.author)) {
       throw message.language.get('STARBOUND_AUTH_FAILURE')
     }
 
