@@ -20,8 +20,8 @@ export default class StarboundPlayerChatEvent extends StarboundBaseEvent {
    */
   run(message: ExtendedMessage | ExtendedMessage[]) {
     const embed = Array.isArray(message)
-      ? this.singleMessageEmbed((message as unknown) as ExtendedMessage)
-      : this.multipleMessageEmbed((message as unknown) as ExtendedMessage[])
+      ? this.multipleMessageEmbed((message as unknown) as ExtendedMessage[])
+      : this.singleMessageEmbed((message as unknown) as ExtendedMessage)
 
     this.channel?.send(embed)
   }
