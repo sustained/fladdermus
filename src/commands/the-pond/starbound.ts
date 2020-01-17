@@ -56,7 +56,7 @@ export default class StarboundCommand extends ExclusiveCommand {
       return message.sendLocale('STARBOUND_START_SUCCESS')
     } catch (error) {
       console.error(error)
-      return message.sendLocale('STARBOUND_START_FAILURE', error.message)
+      return message.sendLocale('STARBOUND_START_FAILURE', [error.message])
     }
   }
 
