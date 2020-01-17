@@ -154,10 +154,10 @@ export default class StarboundCommand extends ExclusiveCommand {
       return message.guild.members.get(userId)
     })
 
-    // return message.sendEmbed(
-    return createStarboundTemplate()
-      .setTitle('Authorised Users')
-      .setDescription(members.join(', '))
-    // )
+    return message.sendEmbed(
+      createStarboundTemplate()
+        .setTitle('Authorised Users')
+        .setDescription(members.join(', '))
+    )
   }
 }
