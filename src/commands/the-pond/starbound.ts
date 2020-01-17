@@ -3,7 +3,7 @@ import { GUILDS } from '@libraries/constants/index'
 import ExclusiveCommand from '@libraries/ExclusiveCommand'
 import { User, Message, GuildMember, Guild } from 'discord.js'
 import { Possible } from 'klasa'
-import createStarboundTemplate from '@base/libraries/templates/StarboundTemplate'
+import createStarboundTemplate from '@templates/StarboundTemplate'
 
 /**
  * These actions/subcommands require a user to be authorised.
