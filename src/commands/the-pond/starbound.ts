@@ -8,7 +8,7 @@ import createStarboundTemplate from '@templates/StarboundTemplate'
 /**
  * These actions/subcommands require a user to be authorised.
  */
-enum ProtectedAction {
+enum ProtectedActions {
   START = 'start',
   STOP = 'stop',
   RESTART = 'restart',
@@ -68,7 +68,7 @@ export default class StarboundCommand extends ExclusiveCommand {
   async start(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
       throw message.language.get('STARBOUND_NO_PERMISSION', [
-        ProtectedAction.START,
+        ProtectedActions.START,
       ])
     }
 
@@ -91,7 +91,7 @@ export default class StarboundCommand extends ExclusiveCommand {
   async stop(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
       throw message.language.get('STARBOUND_NO_PERMISSION', [
-        ProtectedAction.STOP,
+        ProtectedActions.STOP,
       ])
     }
 
@@ -108,7 +108,7 @@ export default class StarboundCommand extends ExclusiveCommand {
   async restart(message: KlasaMessage) {
     if (!this.isUserAuthorised(message.author)) {
       throw message.language.get('STARBOUND_NO_PERMISSION', [
-        ProtectedAction.RESTART,
+        ProtectedActions.RESTART,
       ])
     }
   }
